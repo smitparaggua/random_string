@@ -1,24 +1,44 @@
 defmodule RandomString do
   @numeric ~w(1 2 3 4 6 7 8 9 0)
   @alpha ~w(a b c d e f g h i j k l m n o p q r s t u v w x y z)
+  @hex @numeric ++ ~w(a b c d e f)
   @alphanumeric @alpha ++ @numeric
 
-  @default_length 32
+  @default_options [charset: :alphanumeric, length: 32]
 
   def generate do
-    generate(@default_length)
+    generate(@default_options[:length])
   end
 
   def generate(length) when is_integer(length) do
-    characters = @alphanumeric
+    generate(length: length)
+  end
+
+  def generate(options) do
+    options = with_default_options(options)
+    characters = characters_for_charset(options[:charset])
     character_count = Enum.count(characters)
     Stream.repeatedly(fn -> random_character(characters, character_count) end)
-    |> Stream.take(length)
+    |> Stream.take(options[:length])
     |> Enum.join("")
+  end
+
+  defp characters_for_charset(charset) do
+    case charset do
+      :alphanumeric -> @alphanumeric
+      :alphabetic -> @alpha
+      :numeric -> @numeric
+      :hex -> @hex
+      characters -> characters
+    end
   end
 
   defp random_character(characters, character_count) do
     random_index = :rand.uniform(character_count) - 1
     Enum.at(characters, random_index)
+  end
+
+  defp with_default_options(options) do
+    Keyword.merge(@default_options, options)
   end
 end
