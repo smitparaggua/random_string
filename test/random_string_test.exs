@@ -70,4 +70,21 @@ defmodule RandomStringTest do
     assert String.match?(string2, ~r/^[a-c]+$/)
     assert String.match?(string3, ~r/^[1-3]+$/)
   end
+
+  test "forces lowercase via case: :lower" do
+    string = RandomString.generate(case: :lower)
+    assert String.match?(string, ~r/^[a-z0-9]+$/)
+  end
+
+  test "forces uppercase via case: :upper" do
+    string = RandomString.generate(case: :upper)
+    assert String.match?(string, ~r/^[A-Z0-9]+$/)
+  end
+
+  test "forces mixed case via case: :mix" do
+    string = RandomString.generate(case: :mix)
+    assert String.match?(string, ~r/^[a-z0-9]+$/i)
+    assert String.match?(string, ~r/[a-z]/)
+    assert String.match?(string, ~r/[A-Z]/)
+  end
 end

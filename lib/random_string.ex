@@ -41,6 +41,9 @@ defmodule RandomString do
 
   defp case_modifier(options) do
     case options[:case] do
+      :upper -> &String.upcase/1
+      :lower -> &String.downcase/1
+      :mix -> &randomize_case/1
       _ -> case_modifier_for_charset(options[:charset])
     end
   end
