@@ -19,6 +19,7 @@ defmodule RandomString do
     characters = characters_for_charset(options[:charset])
     character_count = Enum.count(characters)
     Stream.repeatedly(fn -> random_character(characters, character_count) end)
+    |> Stream.map(case_modifier(options))
     |> Stream.take(options[:length])
     |> Enum.join("")
   end
@@ -36,6 +37,30 @@ defmodule RandomString do
   defp random_character(characters, character_count) do
     random_index = :rand.uniform(character_count) - 1
     Enum.at(characters, random_index)
+  end
+
+  defp case_modifier(options) do
+    case options[:case] do
+      _ -> case_modifier_for_charset(options[:charset])
+    end
+  end
+
+  defp case_modifier_for_charset(charset) do
+    identity = &(&1)
+    case charset do
+      :alphanumeric -> &randomize_case/1
+      :alphabetic -> &randomize_case/1
+      :numeric -> identity
+      :hex -> identity
+      _ -> identity
+    end
+  end
+
+  defp randomize_case(character) do
+    case :rand.uniform(2) do
+      1 -> String.downcase(character)
+      2 -> String.upcase(character)
+    end
   end
 
   defp with_default_options(options) do
