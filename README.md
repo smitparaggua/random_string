@@ -31,3 +31,8 @@ ExRandomString.generate(length: 12, charset: :alphabetic)
 ExRandomString.generate(charset: ~w(a b c));
 # "accbaabbbbcccbccccaacacbbcbbcbbc"
 ```
+
+## Documentation
+
+Documentation is available at:
+[HexDocs](https://hexdocs.pm/ex_random_string/ExRandomString.html)
