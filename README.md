@@ -1,21 +1,33 @@
-# RandomString
+# ExRandomString
 
-**TODO: Add description**
+Library for generating random strings. Based on NodeJS library
+[randomstring](https://www.npmjs.com/package/randomstring).
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `random_string` to your list of dependencies in `mix.exs`:
+The package can be installed by adding `ex_random_string` to your list of
+dependencies in `mix.exs`:
 
 ```elixir
 def deps do
   [
-    {:random_string, "~> 0.1.0"}
+    {:ex_random_string, "~> 1.0.1"}
   ]
 end
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/random_string](https://hexdocs.pm/random_string).
+## Usage
 
+```elixir
+ExRandomString.generate()
+# "XwPp9xazJ0ku5CZnlmgAx2Dld8SHkAeT"
+ 
+ExRandomString.generate(7);
+# "xqm5wXX"
+ 
+ExRandomString.generate(length: 12, charset: :alphabetic)
+# "AqoTIzKurxJi"
+ 
+ExRandomString.generate(charset: ~w(a b c));
+# "accbaabbbbcccbccccaacacbbcbbcbbc"
+```
